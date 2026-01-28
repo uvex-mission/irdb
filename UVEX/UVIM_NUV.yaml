@@ -1,0 +1,22 @@
+object: instrument
+alias: INST
+name: NUV
+description: base configuration for UVIM NUV imaging plane
+
+properties:
+  pixel_scale: 1.03  # arcsec / pixel
+  plate_scale: 103   # arcsec / mm
+
+effects:
+  - name: nuv_surfaces
+    description: surfaces list for NUV imaging
+    class: SurfaceList
+    kwargs:
+      filename: LIST_surfaces_NUV.tbl
+
+  - name: psf
+    class: SeeingPSF
+    kwargs:
+      fwhm: 2
+      fwhm_unit: arcsec
+

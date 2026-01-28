@@ -1,0 +1,16 @@
+# author : Hannah Earnshaw
+# source : 
+# date_created : 2026-01-28
+# date_modified : 
+# outer_unit: m
+# inner_unit: m
+# angle_unit: degree
+# status : development
+# type : mirror:list
+# changes :
+# - 2026-01-28 (HE) Created the file
+#
+name     outer  inner  angle  temperature  action      filename
+M1       0.96   0.     0.     0.           reflection  mirror_reflectivity.dat
+M2       0.4    0.     0.     0.           reflection  mirror_reflectivity.dat
+M3       0.9    0.     0.     0.           reflection  mirror_reflectivity.dat
