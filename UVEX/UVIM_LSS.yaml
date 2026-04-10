@@ -1,11 +1,12 @@
 # author : Evangela Shread
 # date_created : 2026-02-26
-# date_modified : 2026-04-06
+# date_modified : 2026-04-09
 # status : development
 # changes :
 # - 2026-02-26 (ES) Created file
 # - 2026-03-23 (HE) Updated data file locations
 # - 2026-04-06 (ES) Added custom PSF effects
+# - 2026-04-09 (ES) Updated PSF effects to include oversampling options
 
 object: instrument
 alias: INST
@@ -43,6 +44,10 @@ effects:
     kwargs :
         filename : "LIST_surfaces_LSS.tbl"
 
+# PSF effects
+# oversample_flag: If True, oversample the image before convolution and downsample after (memory intensive but can improve accuracy)
+# oversampling: Factor by which to oversample the image for convolution; the PSF is sampled to this resolution as well.
+#               This must divide into 10 (the PSF oversampling factor) and it must be <= 10
   - name: detector_psf
     description: PSF on the detector
     class: LSSDetectorPSF
@@ -50,6 +55,7 @@ effects:
     kwargs:
       directory: "LSS_DET_PSF"
       oversampling: 10
+      oversample_flag: True
 
   - name: slit_psf
     description: PSF at the slit
@@ -58,6 +64,7 @@ effects:
     kwargs:
       directory: "LSS_SLIT_PSF"
       oversampling: 10
+      oversample_flag: True
 
   - name: spectral_traces 
     description: spectral trace geometry on the focal plane
@@ -75,7 +82,7 @@ description: simulation parameters for UVEX LSS spectroscopy run
 
 properties:
   spectral:
-    spectral_bin_width: 8.2e-5  # microns, estimate from ETC
+    spectral_bin_width: 8.2e-5  # microns
     spectral_resolution: 5000
     wave_min: 0.1150   
     wave_mid: 0.2350 
