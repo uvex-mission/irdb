@@ -1,6 +1,6 @@
 # author : Evangela Shread
 # date_created : 2026-02-11
-# date_modified : 2026-04-06
+# date_modified : 2026-04-13
 # status : development
 # type : aperture:slit_geometry
 # x_unit : arcsec
@@ -8,9 +8,10 @@
 # changes :
 # - 2026-02-11 (ES) Created the file
 # - 2026-04-06 (ES) Swapped spatial and spectral direction
+# - 2026-04-13 (ES) Moved to off-axis position (x0 = 3.5 deg, y0 = 0 deg)
 
 x    y
--1.0    -1800.0
-1.0    -1800.0
-1.0    1800.0
--1.0    1800.0
+12599.0    -1800.0
+12601.0    -1800.0
+12601.0    1800.0
+12599.0    1800.0
