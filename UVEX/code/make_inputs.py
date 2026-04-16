@@ -21,6 +21,9 @@ class UVEXInputs:
             
         # Generate IRDB data files from given inputs
         self.make_reflectivity(infile=config['telescope']['mirror_reflectivity_file'])
+        self.make_contamination(thickness_infile=config['telescope']['contamination']['thickness_file'], 
+                                coeff_infile=config['telescope']['contamination']['absorption_coefficient_file'],
+                                stage=config['telescope']['contamination']['stage'])
         
         # Load detector parameters
         self.n_pixels = config['detector']['n_pixels']
@@ -246,6 +249,55 @@ class UVEXInputs:
             f.write("wavelength    transmission\n")
             for wl, trans in zip(wavelength, transmission):
                 f.write(f"{wl.value:.1f}    {trans:.9g}\n")
+                
+    def make_contamination(self, thickness_infile="contam_thickness.csv", coeff_infile="contam_absorption_coeff.txt", stage='eol'):
+        # load thickness file and num film passes to dict on component by component basis
+        thickness = {}
+        num_films = {}
+        components = {}
+        # in contam_thickness.csv each row corresponds to a different component
+        # columns are component name, bol thickness, eol thickness, number of film passes
+        with open(os.path.join(self.inputs_dir, thickness_infile), 'r', encoding='utf-8') as f:
+            lines = f.readlines()[2:] # comment and header at first two lines
+            for line in lines:
+                if line.strip():
+                    data = line.strip().split(',')
+                    dict_str = str(data[0].strip())
+                    thickness[dict_str] = {'bol': (int(data[1])*u.AA).to(u.nm), 'eol': (int(data[2])*u.AA).to(u.nm)} # convert from angstrom to nm
+                    num_films[dict_str] = int(data[3])
+        
+        components['NUV'] = ['M1', 'M2', 'M3', 'Dichroic', 'NUVSurface']
+        components['FUV'] = ['M1', 'M2', 'M3', 'Dichroic', 'FUVSurface']
+        components['LSS'] = ['M1', 'M2', 'M3', 'SM1', 'Grating', 'SM2', 'LSSSurface']
+        
+        eff_thickness = {'NUV': 0, 'FUV': 0, 'LSS': 0} # units nm
+        for inst in components.keys():
+            for comp in components[inst]:
+                if comp not in thickness:
+                    raise ValueError(f"Components must be one of 'M1', 'M2', 'M3', "
+                                    f"'Dichroic', 'NUVSurface', 'FUVSurface', 'SM1', "
+                                    f"'Grating', 'SM2', 'LSSSurface' and received {comp}")
+                else:
+                    eff_thickness[inst] += thickness[comp][stage] * num_films[comp]
+
+        # coefficients per nm wavelength
+        data = np.genfromtxt(os.path.join(self.inputs_dir, coeff_infile), delimiter=None)
+        wave = data[:,0] * u.nm
+        abs_coeff = data[:,1] / u.nm
+
+        for inst in ('NUV', 'FUV', 'LSS'):
+            outfile = 'UVIM_' + inst + '_contamination.dat'
+            response = np.exp(-(abs_coeff * eff_thickness[inst]).value)
+            with open(os.path.join(self.outputs_dir, outfile), 'w') as f:
+                f.write(f"# date_modified : {np.datetime64('today', 'D').astype(str)}\n")
+                f.write(f"# stage: {stage}\n")
+                f.write(f"# orig_filename: {thickness_infile}  {coeff_infile}\n")
+                f.write("# action: transmission\n")
+                f.write("# wavelength_unit: nm\n")
+                f.write(" \n")
+                f.write("wavelength    transmission\n")
+                for wl, r in zip(wave, response):
+                    f.write(f"{wl.value:.1f}    {r:.9g}\n")
        
 if __name__ == "__main__":
     # run python3 make_inputs.py from command line

@@ -13,6 +13,10 @@
 # Telescope inputs
 telescope:
     mirror_reflectivity_file: "mirror_reflectivity.dat"
+    contamination: 
+        absorption_coefficient_file: "contam_absorption_coeff.txt"
+        thickness_file: "contam_thickness.csv"
+        stage: "eol" # must be 'bol' (beginning of life) or 'eol' (end of life)
 
 # Detector inputs
 detector: 
@@ -42,3 +46,4 @@ lss:
     filter_file: "graded_overcoat_00nm.csv"
 
     pixel_scale: 0.80 arcsec
+    gap_size: 0.616 mm

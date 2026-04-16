@@ -33,7 +33,7 @@ effects:
         angle: [0., 0.]
         gain: [1.2, 1.2]
         y_cen: [0., 0.]
-        x_cen: [-5.874, 35.702] # two detectors oriented along the spectral direction
+        x_cen: [-5.916, 35.66] # two detectors oriented along the spectral direction
         y_size: [40.96, 40.96]
         x_size: [40.96, 40.96]
       x_cen_unit: mm
