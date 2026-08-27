@@ -24,6 +24,24 @@ properties:
   fov_unit: arcsec
 
 effects:
+  - name: oversample_image
+    description: oversample the image in the spatial directions for subpixel accuracy
+    class: Oversample
+    include: True
+
+  - name: slit_psf
+    description: PSF at the slit
+    class: SlitPSF
+    include: True
+    kwargs:
+      directory: "LSS_SLIT_PSF"
+
+  - name: slit_geometry
+    description: slit geometry on the focal plane
+    class: UVEXSlitMask
+    kwargs:
+      filename: "data_files/UVIM_LSS_slit_geometry.dat"
+
   - name: relay_optics
     description: list of extra mirrors needed for the spectroscopy mode
     class: SurfaceList
@@ -36,11 +54,12 @@ effects:
     kwargs:
       filename: "data_files/UVIM_LSS_spectral_efficiency.fits"
 
-  - name: slit_geometry
-    description: slit geometry on the focal plane
-    class: UVEXSlitMask
+  - name: spectral_traces
+    description: spectral trace geometry on the focal plane
+    class: SpectralTraceList
     kwargs:
-      filename: "data_files/UVIM_LSS_slit_geometry.dat"
+      filename: "data_files/UVIM_LSS_spectral_trace.fits"
+      dispersion_file: "data_files/UVIM_LSS_dispersion.dat"
 
   - name : surfaces
     description : surfaces list for the spectroscopy mode
@@ -54,20 +73,11 @@ effects:
     include: True
     kwargs:
       directory: "LSS_DET_PSF"
-      
-  - name: slit_psf
-    description: PSF at the slit
-    class: SlitPSF
-    include: True
-    kwargs:
-      directory: "LSS_SLIT_PSF"
 
-  - name: spectral_traces 
-    description: spectral trace geometry on the focal plane
-    class: SpectralTraceList
-    kwargs:
-      filename: "data_files/UVIM_LSS_spectral_trace.fits"
-      dispersion_file: "data_files/UVIM_LSS_dispersion.dat"
+  - name: downsample_image
+    description: downsample the image to native pixel resolution after it has been oversampled
+    class: Downsample
+    include: True
 
 # LSS-specific simulation parameters
 ---

@@ -38,18 +38,16 @@ effects:
       pixsize_unit: mm
       angle_unit: deg
       gain_unit: electron/adu
-      
-#  - name: bias
-#    description: Constant electronic bias offset added to the readout
-#    class: Bias
-#    kwargs:
-#      value: 0
 
   - name: si_bandgap
     description: Si band gap at ~1.1 um
     class: QuantumEfficiencyCurve
     kwargs:
       filename: data_files/Si_bandgap.dat
+
+  - name: lss_exposure
+    description: Expose for given exposure time DIT
+    class: ExposureIntegration
 
   - name: lss_dark_current
     description: CMOS detector dark current
@@ -59,16 +57,29 @@ effects:
     kwargs:
       value: 0.001
 
+  - name: lss_shot_noise
+    description: apply poisson shot noise to images
+    class: ShotNoise
+    include: True
+
   - name: lss_detector_linearity
     description: Detector linearity and saturation characteristics
     class: LinearityCurve
     kwargs:
       filename: data_files/UVIM_DET_linearity.dat
 
-  - name: lss_shot_noise
-    description: apply poisson shot noise to images
-    class: ShotNoise
-    include: True
+  - name: lss_inter_pixel_capacitance
+    description: Inter-pixel capacitance (IPC) convolution kernel
+    class: InterPixelCapacitance
+    include: False
+    kwargs:
+      filename: tbd_ipc_kernel.fits
+
+#  - name: bias
+#    description: Constant electronic bias offset added to the readout
+#    class: Bias
+#    kwargs:
+#      value: 0
 
   - name: lss_readout_noise
     description: Readout noise frames
@@ -77,13 +88,6 @@ effects:
     kwargs:
       noise_std: 2.0 # e-
 
-  - name: lss_inter_pixel_capacitance
-    description: Inter-pixel capacitance (IPC) convolution kernel
-    class: InterPixelCapacitance
-    include: False
-    kwargs:
-      filename: tbd_ipc_kernel.fits
-      
   - name: lss_ad_conversion
     description: Apply gain and convert electron count into integers
     class: ADConversion
@@ -93,7 +97,4 @@ effects:
        gain:
            1:  "!DET.gain"
            2:  "!DET.gain"
-    
-  - name: lss_exposure
-    description: Expose for given exposure time DIT
-    class: ExposureIntegration
+

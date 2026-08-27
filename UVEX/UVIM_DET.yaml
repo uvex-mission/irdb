@@ -37,17 +37,15 @@ effects:
 
   # QE is intentionally NOT included here (handled separately for NUV and FUV)
 
-#  - name: bias
-#    description: Constant electronic bias offset added to the readout
-#    class: Bias
-#    kwargs:
-#      value: 0
-
   - name: si_bandgap
     description: Si band gap at ~1.1 um
     class: QuantumEfficiencyCurve
     kwargs:
       filename: data_files/Si_bandgap.dat
+
+  - name: exposure
+    description: Expose for given exposure time DIT
+    class: ExposureIntegration
 
   - name: dark_current
     description: CMOS detector dark current
@@ -55,21 +53,15 @@ effects:
     kwargs:
       value: 0.001 # [e-/s]
 
+  - name: shot_noise
+    description: Apply poisson shot noise to images
+    class: ShotNoise
+
   - name: detector_linearity
     description: Detector linearity and saturation characteristics
     class: LinearityCurve
     kwargs:
       filename: data_files/UVIM_DET_linearity.dat
-
-  - name: shot_noise
-    description: Apply poisson shot noise to images
-    class: ShotNoise
-
-  - name: readout_noise
-    description: Readout noise frames
-    class: BasicReadoutNoise
-    kwargs:
-      noise_std: 3
 
   - name: inter_pixel_capacitance
     description: Inter-pixel capacitance (IPC) convolution kernel
@@ -77,7 +69,19 @@ effects:
     include: False
     kwargs:
       filename: tbd_ipc_kernel.fits
-    
+
+#  - name: bias
+#    description: Constant electronic bias offset added to the readout
+#    class: Bias
+#    kwargs:
+#      value: 0
+
+  - name: readout_noise
+    description: Readout noise frames
+    class: BasicReadoutNoise
+    kwargs:
+      noise_std: 3
+
   - name: ad_conversion
     description: Apply gain and convert electron count into integers
     class: ADConversion
@@ -93,9 +97,6 @@ effects:
            7:  "!DET.gain"
            8:  "!DET.gain"
            9:  "!DET.gain"
-    
-  - name: exposure
-    description: Expose for given exposure time DIT
-    class: ExposureIntegration
+
 
 

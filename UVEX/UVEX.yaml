@@ -19,12 +19,6 @@ properties:
   area_unit: m2
 
 effects:
-  - name: ota_surface_list
-    description: list of surfaces in UVEX OTA
-    class: SurfaceList
-    kwargs:
-      filename: LIST_mirrors_OTA.tbl
-
   - name: spacecraft_pointing
     description: Blurring due to spacecraft pointing jitter
     class: SpacecraftPointing
@@ -32,6 +26,12 @@ effects:
     kwargs:
       fwhm: 2
       fwhm_unit: arcsec
+      
+  - name: ota_surface_list
+    description: list of surfaces in UVEX OTA
+    class: SurfaceList
+    kwargs:
+      filename: LIST_mirrors_OTA.tbl
 
 ---
 alias: ATMO
