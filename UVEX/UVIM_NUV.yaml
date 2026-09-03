@@ -44,6 +44,12 @@ effects:
       fwhm: 2
       fwhm_unit: arcsec
 
+  - name: nuv_surfaces
+    description: surfaces list for NUV imaging, including the filter and dichroic transmission
+    class: SurfaceList
+    kwargs:
+      filename: LIST_surfaces_NUV.tbl
+
   - name: qe_curve
     description: Quantum efficiency curve for the NUV detector
     class: QuantumEfficiencyCurve
@@ -51,16 +57,14 @@ effects:
         filename: data_files/UVIM_NUV_QE.dat
 
 # PSF effects
-# oversample_flag: If True, oversample the image before convolution and downsample after (memory intensive but can improve accuracy)
 # oversampling: Factor by which to oversample the image for convolution; the PSF is sampled to this resolution as well.
 #               This must divide into 10 (the PSF oversampling factor) and it must be <= 10, so options are 1,2,5,10
 
-#  - name: detector_psf
-#    description: PSF on the detector
-#    class: UVIMImagerPSF
-#    include: False
-#    kwargs:
-#      directory: "NUV_PSF"
-#      oversampling: 2
-#      oversample_flag: True
-
+  - name: detector_psf
+    description: PSF on the detector
+    class: UVIMImagerPSF
+    include: True
+    kwargs:
+      directory: "NUV_PSF"
+      oversampling_x: 1
+      oversampling_y: 1
