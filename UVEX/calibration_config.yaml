@@ -1,0 +1,52 @@
+# UVEX detector calibration manifest
+#
+# Defines the active calibration products for each physical detector.
+
+version: 1
+
+detectors:
+
+  A1:
+    read_noise: data_files/A1/UVIM_DET_read_noise_RN2p0_var0p2.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  A2:
+    read_noise: data_files/A2/UVIM_DET_read_noise_RN2p0_var0p5.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  A3:
+    read_noise: data_files/A3/UVIM_DET_read_noise_RN2p0_var0p2.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  B1:
+    read_noise: data_files/B1/UVIM_DET_read_noise_RN5p0_var0p5.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  B2:
+    read_noise: data_files/B2/UVIM_DET_read_noise_RN2p0_var0p5.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  B3:
+    read_noise: data_files/B3/UVIM_DET_read_noise_RN5p0_var0p2.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  C1:
+    read_noise: data_files/C1/UVIM_DET_read_noise_RN5p0_var0p5.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  C2:
+    read_noise: data_files/C2/UVIM_DET_read_noise_RN2p0_var0p2.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits
+
+  C3:
+    read_noise: data_files/C3/UVIM_DET_read_noise_RN5p0_var0p2.fits
+    dark_current: data_files/A1/UVIM_DET_dark_current_map_test.fits
+    bias: data_files/A1/UVIM_DET_bias_map_test.fits

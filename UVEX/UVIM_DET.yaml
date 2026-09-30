@@ -1,12 +1,14 @@
 # author : Hannah Earnshaw
 # date_created : 2026-01-28
-# date_modified : 2026-06-12
+# date_modified : 2026-09-15
 # status : development
 # changes :
 # - 2026-01-28 (HE) Created file
 # - 2026-03-05 (OA) Created detector array and added effects
 # - 2026-03-23 (HE) Added metadata
 # - 2026-06-12 (HE) Added linearity and Si bandgap
+# - 2026-09-15 (HG) Added detector-specific 2D noise map for read noise
+# - 2026-09-25 (HG) Added detector-specific 2D dark current and bias maps
 
 object: detector
 alias: DET
@@ -48,10 +50,12 @@ effects:
     class: ExposureIntegration
 
   - name: dark_current
-    description: CMOS detector dark current
-    class: DarkCurrent
+    description: Pixel-dependent detector dark current
+    class: DarkCurrentMap
     kwargs:
-      value: 0.001 # [e-/s]
+      calibration_config: calibration_config.yaml
+      dit: "!OBS.dit"
+      ndit: "!OBS.ndit"
 
   - name: shot_noise
     description: Apply poisson shot noise to images
@@ -70,17 +74,18 @@ effects:
     kwargs:
       filename: tbd_ipc_kernel.fits
 
-#  - name: bias
-#    description: Constant electronic bias offset added to the readout
-#    class: Bias
-#    kwargs:
-#      value: 0
-
-  - name: readout_noise
-    description: Readout noise frames
-    class: BasicReadoutNoise
+  - name: bias
+    description: Pixel-dependent electronic bias offset
+    class: BiasMap
     kwargs:
-      noise_std: 3
+      calibration_config: calibration_config.yaml
+  
+  - name: readout_noise
+    description: Pixel-dependent Gaussian readout noise from RMS map
+    class: BasicReadoutNoiseMap
+    kwargs:
+      calibration_config: calibration_config.yaml
+      ndit: "!OBS.ndit"
 
   - name: ad_conversion
     description: Apply gain and convert electron count into integers
