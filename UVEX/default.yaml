@@ -62,3 +62,4 @@ description: global simulation parameters for a UVEX observation
 properties:
   random:
     seed: 9001
+
